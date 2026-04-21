@@ -4,6 +4,7 @@ window.onload = function() {
 };
 
 // --- FUNÇÕES DO MODAL (INTERFACE) ---
+// oi
 function abrirModal() {
     document.getElementById('input-name').value = document.getElementById('profile-name').innerText;
     document.getElementById('input-bio').value = document.getElementById('profile-bio').innerText;
