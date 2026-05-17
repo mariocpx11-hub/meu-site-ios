@@ -151,17 +151,20 @@ function searchSymbols() {
 }
 
 // ====================================================
-// 📰 MOTOR DE JORNAL: GOOGLE NEWS AVANÇADO (SKINS & CODIGUINS)
+// 📰 MOTOR DE JORNAL: GOOGLE NEWS AVANÇADO (ANTI-CACHE)
 // ====================================================
 async function fetchNewsFF() {
     const container = document.getElementById('newsFeed');
     container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 30px; font-size: 13px;">Varrendo o servidor atrás de Codiguins & Skins... 📡</div>`;
 
     try {
-        // ATUALIZAÇÃO DA BUSCA: Agora foca em novidades, skins, vazamentos e atualizações do FF
-        const searchQuery = 'Free Fire (skins OR codiguin OR novidades OR atualização OR vazamentos)';
-        const rssUrl = encodeURIComponent(`https://news.google.com/rss/search?q=${searchQuery}+when:7d&hl=pt-BR&gl=BR&ceid=BR:pt-419`);
-        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+        // Nova busca forçando termos específicos e limitando para os últimos 3 dias (when:3d)
+        const searchQuery = '"Free Fire" AND (vazamento OR atualização OR codiguin OR passe OR novidades)';
+        const rssUrl = encodeURIComponent(`https://news.google.com/rss/search?q=${searchQuery}+when:3d&hl=pt-BR&gl=BR&ceid=BR:pt-419`);
+        
+        // TRUQUE ANTI-CACHE: Adicionamos o tempo atual na URL para forçar o servidor a buscar notícias novas agora
+        const cacheBuster = new Date().getTime();
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&t=${cacheBuster}`;
 
         const response = await fetch(apiUrl);
         const data = await response.json();
@@ -175,25 +178,21 @@ async function fetchNewsFF() {
         const articles = data.items.slice(0, 8);
 
         if (articles.length === 0) {
-            container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Nenhum vazamento bombástico nas últimas horas.</div>`;
+            container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Nenhum vazamento bombástico nos últimos dias.</div>`;
             return;
         }
 
-        // Banco de imagens de setups e e-Sports diferentes para evitar fotos repetidas
         const fallbackImages = [
-            'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop', // Arena Tech
-            'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop', // Controle/Teclado Neon
-            'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=600&auto=format&fit=crop', // Setup Quarto Gamer
-            'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop', // Periféricos Cyberpunk
-            'https://images.unsplash.com/photo-1560253023-3ec5d502959f?q=80&w=600&auto=format&fit=crop', // Luz de Led abstrata
-            'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop'  // Fone de Ouvido Pro
+            'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop', 
+            'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop', 
+            'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=600&auto=format&fit=crop', 
+            'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop', 
+            'https://images.unsplash.com/photo-1560253023-3ec5d502959f?q=80&w=600&auto=format&fit=crop', 
+            'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop'  
         ];
 
-        // O 'index' serve para sabermos qual notícia estamos rodando e mudar a foto
         articles.forEach((article, index) => {
-            // Se o Google falhar, ele pega uma imagem diferente da lista baseado na posição da notícia
             let imageUrl = article.thumbnail || (article.enclosure && article.enclosure.link) || fallbackImages[index % fallbackImages.length];
-
             let pubDate = new Date(article.pubDate).toLocaleDateString('pt-BR');
             let cleanTitle = article.title.split(' - ')[0];
 
