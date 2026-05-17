@@ -15,7 +15,7 @@ function switchTab(tabName) {
     } else {
         document.querySelector('.tabs-nav .tab-btn:nth-child(3)').classList.add('active');
         document.getElementById('tab-simbolos').classList.add('active');
-        searchSymbols(); // Carrega os símbolos com os filtros ativos assim que abre a aba
+        searchSymbols(); 
     }
 }
 
@@ -86,23 +86,18 @@ function generateNicks() {
 }
 
 // ====================================================
-// 🧠 CONEXÃO SEGURA COM IA GROQ
+// 🧠 IA TURBINADA: PERSONALIDADE PRO-PLAYER BRASILEIRO
 // ====================================================
 async function generateAiNicks() {
     const themeInput = document.getElementById('aiInput').value.trim();
     const container = document.getElementById('aiResults');
     const theme = themeInput ? themeInput : "apelão de campeonato";
 
-    container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Groq AI arquitetando codinomes... ⚡</div>`;
+    container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Groq AI bolando nicks nível camp... ⚡</div>`;
 
-    // Cole aqui sua chave gerada após clicar em SUBMIT no painel da Groq
-    const apiKey = 'SUA_CHAVE_AQUI'; 
+    // Chave integrada conforme solicitado. Se o GitHub bloquear, ela foi revogada.
+    const apiKey = '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'; 
     
-    if (apiKey === 'SUA_CHAVE_AQUI') {
-        container.innerHTML = `<div style="text-align: center; color: #ff453a; padding: 20px; font-size: 13px;">Insira uma chave válida no arquivo script.js local.</div>`;
-        return;
-    }
-
     try {
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -115,14 +110,15 @@ async function generateAiNicks() {
                 messages: [
                     {
                         role: "system",
-                        content: "Você é um gerador elite de codinomes e nicks de e-Sports competitivos de alto nível (estilo Free Fire, Valorant, CS, Line-ups profissionais). PROIBIDO gerar nicks genéricos infantis ou palavras simples inteiras. Crie combinações agressivas usando abreviações, tags de clãs fictícios (ex: FX, NT, K9, MDG), leetspeak cirúrgico e caracteres raros de forma harmoniosa. O usuário mandará um conceito ou estilo. Responda estritamente com apenas 5 opções separadas por vírgula, sem explicações, sem introduções e sem numeração."
+                        // Mágica acontece aqui: o prompt agora tem "alma"
+                        content: "Aja como um jogador brasileiro profissional, veterano de e-Sports. Sua tarefa é criar 5 codinomes (nicks) absurdamente criativos, agressivos e que botam pressão na line inimiga. Use o estilo do usuário como base. INSTRUÇÕES: 1) Nunca crie nomes infantis, robóticos ou palavras simples. 2) Misture o tema com letras maiúsculas espaçadas, abreviações gringas (ex: VZ, LND, FX, XIT) ou símbolos raros do oriente (ex: 望, 么, 〆, 炎, , ×͜×, 亗). 3) Crie a estética exata que um pro-player usaria hoje. Retorne APENAS os 5 nicks separados por vírgula. Zero conversa fiada, sem aspas, sem números na frente."
                     },
                     {
                         role: "user",
-                        content: `Conceito/Estilo do Nick: ${theme}`
+                        content: `Estilo base para o nick: ${theme}`
                     }
                 ],
-                temperature: 0.85,
+                temperature: 0.9, // Aumentado para dar mais criatividade e ousadia nas respostas
                 max_tokens: 120
             })
         });
@@ -151,7 +147,7 @@ async function generateAiNicks() {
         console.error("Erro Groq:", error);
         container.innerHTML = `<div style="text-align: center; color: #ff453a; padding: 20px; font-size: 13px;">
             Erro Real: ${error.message} <br> 
-            <span style="color: var(--texto-s); font-size: 11px;">Valide se sua chave não foi revogada por segurança.</span>
+            <span style="color: var(--texto-s); font-size: 11px;">Sua chave pode ter sido revogada pelo GitHub.</span>
         </div>`;
     }
 }
