@@ -27,12 +27,11 @@ function showToast(message) {
     setTimeout(() => { toast.classList.remove('show'); }, 2000);
 }
 
-// --- FUNÇÃO DE CÓPIA UNIVERSAL (BLINDADA PARA CELULAR E PC) ---
+// --- FUNÇÃO DE CÓPIA UNIVERSAL ---
 function copySpace(character) {
     navigator.clipboard.writeText(character).then(() => {
         showToast('Copiado para a área de transferência!');
     }).catch(err => {
-        // Fallback para navegadores antigos de celular que bloqueiam o clipboard
         const el = document.createElement('textarea');
         el.value = character;
         document.body.appendChild(el);
@@ -44,9 +43,9 @@ function copySpace(character) {
 }
 function copyText(text) { copySpace(text); }
 
-// --- GERADOR DE LETRAS MODIFICADAS (ALFABETOS UNICODE) ---
+// --- GERADOR DE LETRAS MODIFICADAS ---
 const maps = {
-    script: { 'a': '𝓪', 'b': '𝓫', 'c': '𝓬', 'd': '𝓭', 'e': '𝓮', 'f': '𝓯', 'g': '𝓰', 'h': '𝓱', 'i': '𝓲', 'j': '𝓳', 'k': '𝓴', 'l': '𝓵', 'm': '𝓶', 'n': '𝓷', 'o': '𝓸', 'p': '𝓹', 'q': '𝓿', 'r': '𝓻', 's': '𝓼', 't': '𝓽', 'u': '𝓾', 'v': '𝓿', 'w': '𝔀', 'x': '𔔁', 'y': '𝔂', 'z': '𝔃' },
+    script: { 'a': '𝓪', 'b': '𝓫', 'c': '𝓬', 'd': '𝓭', 'e': '𝓮', 'f': '𝓯', 'g': '𝓰', 'h': '𝓱', 'i': '𝓲', 'j': '𝓳', 'k': '𝓴', 'l': '𝓵', 'm': '𝓶', 'n': '𝓷', 'o': '𝓸', 'p': '𝓹', 'q': '𝓿', 'r': '𝓻', 's': '𝓼', 't': '𝓽', 'u': '𝓾', 'v': '𝓿', 'w': '𝔀', 'x': '𝔁', 'y': '𝔂', 'z': '𝔃' },
     smallCaps: { 'a': 'ᴀ', 'b': 'ʙ', 'c': 'ᴄ', 'd': 'ᴅ', 'e': 'ᴇ', 'f': 'ꜰ', 'g': 'ɢ', 'h': 'ʜ', 'i': 'ɪ', 'j': 'ᴊ', 'k': 'ᴋ', 'l': 'ʟ', 'm': 'ᴍ', 'n': 'ɴ', 'o': 'ᴏ', 'p': 'ᴘ', 'q': 'ǫ', 'r': 'ʀ', 's': 's', 't': 'ᴛ', 'u': 'ᴜ', 'v': 'ᴠ', 'w': 'ᴡ', 'x': 'x', 'y': 'ʏ', 'z': 'ᴢ' },
     doubleStruck: { 'a': '𝕒', 'b': '𝕓', 'c': '𝕔', 'd': '𝕕', 'e': '𝕖', 'f': '𝕗', 'g': '𝕘', 'h': '𝕙', 'i': '𝕚', 'j': '𝕛', 'k': '𝕜', 'l': '𝕝', 'm': '𝕞', 'n': '𝕟', 'o': '𝕠', 'p': '𝕡', 'q': '𝕢', 'r': '𝕣', 's': '𝕤', 't': '𝕥', 'u': '𝕦', 'v': '𝕧', 'w': '𝕨', 'x': '𝕩', 'y': '𝕪', 'z': '𝕫' },
     circulo: { 'a': 'ⓐ', 'b': 'ⓑ', 'c': 'ⓒ', 'd': 'ⓓ', 'e': 'ⓔ', 'f': 'ⓕ', 'g': 'ⓖ', 'h': 'ⓗ', 'i': 'ⓘ', 'j': 'ⓙ', 'k': '', 'l': 'ⓛ', 'm': 'ⓜ', 'n': 'ⓝ', 'o': 'ⓞ', 'p': 'ⓟ', 'q': 'ⓠ', 'r': 'ⓡ', 's': 'ⓢ', 't': 'ⓣ', 'u': 'ⓤ', 'v': 'ⓥ', 'w': 'ⓦ', 'x': 'ⓧ', 'y': 'ⓨ', 'z': 'ⓩ' }
@@ -87,7 +86,7 @@ function generateNicks() {
 }
 
 // ====================================================
-// 🧠 MOTO INTELIGENTE: CONEXÃO COM IA REAL DA GROQ
+// 🧠 CONEXÃO SEGURA COM IA GROQ
 // ====================================================
 async function generateAiNicks() {
     const themeInput = document.getElementById('aiInput').value.trim();
@@ -96,9 +95,14 @@ async function generateAiNicks() {
 
     container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Groq AI arquitetando codinomes... ⚡</div>`;
 
-    // Lembrete: Use sua chave válida aqui para os testes locais no navegador
-    const apiKey = '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';
+    // Cole aqui sua chave gerada após clicar em SUBMIT no painel da Groq
+    const apiKey = 'SUA_CHAVE_AQUI'; 
     
+    if (apiKey === 'SUA_CHAVE_AQUI') {
+        container.innerHTML = `<div style="text-align: center; color: #ff453a; padding: 20px; font-size: 13px;">Insira uma chave válida no arquivo script.js local.</div>`;
+        return;
+    }
+
     try {
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -147,7 +151,7 @@ async function generateAiNicks() {
         console.error("Erro Groq:", error);
         container.innerHTML = `<div style="text-align: center; color: #ff453a; padding: 20px; font-size: 13px;">
             Erro Real: ${error.message} <br> 
-            <span style="color: var(--texto-s); font-size: 11px;">Ajuste o modelo ou valide sua chave no console da Groq.</span>
+            <span style="color: var(--texto-s); font-size: 11px;">Valide se sua chave não foi revogada por segurança.</span>
         </div>`;
     }
 }
@@ -160,9 +164,8 @@ function filterCategory(category, buttonElement) {
     searchSymbols(); 
 }
 
-// --- MOTOR DE BUSCA AVANÇADO DA BIBLIOTECA DE SÍMBOLOS ---
+// --- MOTOR DE BUSCA DA BIBLIOTECA DE SÍMBOLOS ---
 function searchSymbols() {
-    // Validação de segurança caso o arquivo symbols.js falte ou quebre
     if (typeof symbolDatabase === 'undefined') {
         document.getElementById('symbolsGrid').innerHTML = `<p style="color: var(--texto-s); grid-column: 1 / -1; text-align: center; padding: 20px; font-size: 13px;">Erro: Banco de dados symbols.js não encontrado.</p>`;
         return;
@@ -172,7 +175,6 @@ function searchSymbols() {
     const grid = document.getElementById('symbolsGrid');
     grid.innerHTML = ""; 
 
-    // Filtro 1: Varredura por texto de digitação nas tags e nomes bases
     let filtered = symbolDatabase.filter(sym => {
         const charStr = sym.char ? sym.char : '';
         const nameStr = sym.name ? sym.name.toLowerCase() : '';
@@ -182,7 +184,6 @@ function searchSymbols() {
         return charStr.includes(query) || nameStr.includes(query) || tagsStr.includes(query) || osStr.includes(query);
     });
 
-    // Filtro 2: Cruzamento de dados com a categoria selecionada nas Pills superiores
     if (currentCategoryFilter !== 'all') {
         if (currentCategoryFilter === 'ios' || currentCategoryFilter === 'android') {
             filtered = filtered.filter(sym => sym.os && sym.os.toLowerCase() === currentCategoryFilter);
@@ -196,7 +197,6 @@ function searchSymbols() {
         return;
     }
 
-    // Renderização limpa dos Cards de Símbolos na Grid
     filtered.forEach(sym => {
         const btn = document.createElement('div');
         btn.className = 'symbol-item';
