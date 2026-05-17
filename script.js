@@ -178,7 +178,34 @@ async function fetchNewsFF() {
         const articles = data.items.slice(0, 8);
 
         if (articles.length === 0) {
-            container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Nenhum vazamento bombástico nos últimos dias.</div>`;
+            container.innerHTML// ====================================================
+// 📰 MOTOR DE JORNAL: GOOGLE NEWS BLINDADO (ANTI-ERRO)
+// ====================================================
+async function fetchNewsFF() {
+    const container = document.getElementById('newsFeed');
+    container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 30px; font-size: 13px;">Varrendo o servidor atrás de novidades... 📡</div>`;
+
+    try {
+        // Busca limpa e direta que evita falhas no leitor RSS
+        const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=Free+Fire+novidades+skins&hl=pt-BR&gl=BR&ceid=BR:pt-419');
+        
+        // Adiciona um número aleatório para quebrar o cache de forma limpa
+        const antiCache = Math.random();
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&nocache=${antiCache}`;
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (!data || data.status !== 'ok') {
+            throw new Error("O servidor de notícias está instável no momento.");
+        }
+
+        container.innerHTML = ""; 
+
+        const articles = data.items.slice(0, 8);
+
+        if (articles.length === 0) {
+            container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Sem novidades publicadas recentemente.</div>`;
             return;
         }
 
@@ -220,6 +247,6 @@ async function fetchNewsFF() {
 
     } catch (error) {
         console.error("Erro News API:", error);
-        container.innerHTML = `<div style="text-align: center; color: #ff453a; padding: 20px; font-size: 13px;">Erro de radar: O servidor de notícias demorou a responder. Tente recarregar.</div>`;
+        container.innerHTML = `<div style="text-align: center; color: #ff453a; padding: 20px; font-size: 13px;">O radar de notícias falhou ao carregar. Dê F5 na página para tentar novamente.</div>`;
     }
 }
