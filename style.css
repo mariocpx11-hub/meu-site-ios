@@ -3,7 +3,7 @@
     --bg-principal: #0b0b0d;
     --bg-card: #1c1c1e;
     --bg-input: #2c2c2e;
-    --accent: #0a84ff; /* Azul iOS */
+    --accent: #0a84ff;
     --accent-glow: rgba(10, 132, 255, 0.2);
     --texto-p: #ffffff;
     --texto-s: #8e8e93;
@@ -31,7 +31,6 @@ body {
     padding: 20px 16px;
 }
 
-/* --- CONTAINER PRINCIPAL --- */
 .app-container {
     width: 100%;
     max-width: 480px;
@@ -40,7 +39,6 @@ body {
     gap: 20px;
 }
 
-/* --- HEADER --- */
 header {
     text-align: center;
     padding: 10px 0;
@@ -62,7 +60,6 @@ header p {
     margin-top: 4px;
 }
 
-/* --- NAVEGAÇÃO POR ABAS --- */
 .tabs-nav {
     display: flex;
     background-color: var(--bg-card);
@@ -89,7 +86,6 @@ header p {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* --- SEÇÕES DE CONTEÚDO --- */
 .tab-content {
     display: none;
     animation: fadeIn 0.3s ease;
@@ -106,7 +102,6 @@ header p {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- CARDS --- */
 .card {
     background-color: var(--bg-card);
     border-radius: var(--radius-main);
@@ -127,7 +122,6 @@ header p {
     line-height: 1.4;
 }
 
-/* --- BOTÕES E ENTRADAS --- */
 .grid-buttons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -198,7 +192,6 @@ header p {
     box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
-/* --- LISTA DE RESULTADOS (NICKS E NEWS) --- */
 .results-list {
     display: flex;
     flex-direction: column;
@@ -236,7 +229,6 @@ header p {
     letter-spacing: 0.5px;
 }
 
-/* --- BOTÕES DE CATEGORIAS (PILLS) --- */
 .category-scroll {
     display: flex;
     gap: 8px;
@@ -267,7 +259,6 @@ header p {
     color: white;
 }
 
-/* --- GRADE DE SÍMBOLOS COMPLETA --- */
 .symbols-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); 
@@ -329,7 +320,6 @@ header p {
     background: rgba(255, 255, 255, 0.03);
 }
 
-/* --- NOTIFICAÇÃO TOAST (iOS Style) --- */
 .toast {
     position: fixed;
     bottom: -60px;
