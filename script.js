@@ -158,7 +158,6 @@ async function fetchNewsFF() {
     container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 30px; font-size: 13px;">Buscando as novidades do servidor... 📡</div>`;
 
     try {
-        // Puxa as notícias reais do Google News focadas em "Free Fire" e converte em JSON automático
         const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=Free+Fire+when:7d&hl=pt-BR&gl=BR&ceid=BR:pt-419');
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
@@ -169,9 +168,8 @@ async function fetchNewsFF() {
             throw new Error("Falha ao puxar as notícias do servidor.");
         }
 
-        container.innerHTML = ""; // Limpa a mensagem de carregamento
+        container.innerHTML = ""; 
 
-        // Pega apenas as 8 notícias mais recentes para não pesar o site
         const articles = data.items.slice(0, 8);
 
         if (articles.length === 0) {
@@ -180,15 +178,15 @@ async function fetchNewsFF() {
         }
 
         articles.forEach(article => {
-            // Se o Google não entregar uma imagem na notícia, usamos um wallpaper genérico do FF como fallback
-            let imageUrl = article.thumbnail || article.enclosure.link || 'https://i.imgur.com/3Z5V8bZ.jpeg';
+            // CORREÇÃO AQUI: Trocado o link quebrado do Imgur por um background gamer permanente e limpo do Unsplash CDN
+            let imageUrl = article.thumbnail || article.enclosure.link || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop';
 
-            // Formatação da data para o padrão BR
             let pubDate = new Date(article.pubDate).toLocaleDateString('pt-BR');
 
-            // Criando o "Card" da notícia
+            // Limpa o título tirando o nome do site que o Google joga no final (Ex: "- NETVASCO") para o card ficar mais limpo
+            let cleanTitle = article.title.split(' - ')[0];
+
             const newsCard = document.createElement('div');
-            // CSS embutido para criar o layout visual da revista/jornal sem você precisar mexer no style.css
             newsCard.style.cssText = `
                 background-color: var(--bg-input);
                 border-radius: var(--radius-button);
@@ -202,8 +200,8 @@ async function fetchNewsFF() {
             newsCard.innerHTML = `
                 <div style="height: 160px; background-image: url('${imageUrl}'); background-size: cover; background-position: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"></div>
                 <div style="padding: 16px;">
-                    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--texto-p); line-height: 1.4;">${article.title}</h3>
-                    <p style="font-size: 11px; color: var(--texto-s); margin-bottom: 14px;">Atualizado em: ${pubDate} • Fonte Oficial</p>
+                    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--texto-p); line-height: 1.4;">${cleanTitle}</h3>
+                    <p style="font-size: 11px; color: var(--texto-s); margin-bottom: 14px;">Atualizado em: ${pubDate} • Fonte Parceira</p>
                     <a href="${article.link}" target="_blank" style="display: block; text-align: center; background-color: var(--accent); color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; transition: filter 0.2s;">Abrir Matéria</a>
                 </div>
             `;
