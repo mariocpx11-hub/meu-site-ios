@@ -151,14 +151,16 @@ function searchSymbols() {
 }
 
 // ====================================================
-// 📰 MOTOR DE JORNAL: GOOGLE NEWS API (FREE FIRE BRASIL)
+// 📰 MOTOR DE JORNAL: GOOGLE NEWS AVANÇADO (SKINS & CODIGUINS)
 // ====================================================
 async function fetchNewsFF() {
     const container = document.getElementById('newsFeed');
-    container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 30px; font-size: 13px;">Buscando as novidades do servidor... 📡</div>`;
+    container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 30px; font-size: 13px;">Varrendo o servidor atrás de Codiguins & Skins... 📡</div>`;
 
     try {
-        const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=Free+Fire+when:7d&hl=pt-BR&gl=BR&ceid=BR:pt-419');
+        // ATUALIZAÇÃO DA BUSCA: Agora foca em novidades, skins, vazamentos e atualizações do FF
+        const searchQuery = 'Free Fire (skins OR codiguin OR novidades OR atualização OR vazamentos)';
+        const rssUrl = encodeURIComponent(`https://news.google.com/rss/search?q=${searchQuery}+when:7d&hl=pt-BR&gl=BR&ceid=BR:pt-419`);
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
         const response = await fetch(apiUrl);
@@ -173,17 +175,26 @@ async function fetchNewsFF() {
         const articles = data.items.slice(0, 8);
 
         if (articles.length === 0) {
-            container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Sem novidades nos últimos dias.</div>`;
+            container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Nenhum vazamento bombástico nas últimas horas.</div>`;
             return;
         }
 
-        articles.forEach(article => {
-            // CORREÇÃO AQUI: Trocado o link quebrado do Imgur por um background gamer permanente e limpo do Unsplash CDN
-            let imageUrl = article.thumbnail || article.enclosure.link || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop';
+        // Banco de imagens de setups e e-Sports diferentes para evitar fotos repetidas
+        const fallbackImages = [
+            'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop', // Arena Tech
+            'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop', // Controle/Teclado Neon
+            'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=600&auto=format&fit=crop', // Setup Quarto Gamer
+            'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop', // Periféricos Cyberpunk
+            'https://images.unsplash.com/photo-1560253023-3ec5d502959f?q=80&w=600&auto=format&fit=crop', // Luz de Led abstrata
+            'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop'  // Fone de Ouvido Pro
+        ];
+
+        // O 'index' serve para sabermos qual notícia estamos rodando e mudar a foto
+        articles.forEach((article, index) => {
+            // Se o Google falhar, ele pega uma imagem diferente da lista baseado na posição da notícia
+            let imageUrl = article.thumbnail || (article.enclosure && article.enclosure.link) || fallbackImages[index % fallbackImages.length];
 
             let pubDate = new Date(article.pubDate).toLocaleDateString('pt-BR');
-
-            // Limpa o título tirando o nome do site que o Google joga no final (Ex: "- NETVASCO") para o card ficar mais limpo
             let cleanTitle = article.title.split(' - ')[0];
 
             const newsCard = document.createElement('div');
@@ -201,7 +212,7 @@ async function fetchNewsFF() {
                 <div style="height: 160px; background-image: url('${imageUrl}'); background-size: cover; background-position: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"></div>
                 <div style="padding: 16px;">
                     <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--texto-p); line-height: 1.4;">${cleanTitle}</h3>
-                    <p style="font-size: 11px; color: var(--texto-s); margin-bottom: 14px;">Atualizado em: ${pubDate} • Fonte Parceira</p>
+                    <p style="font-size: 11px; color: var(--texto-s); margin-bottom: 14px;">Atualizado em: ${pubDate} • Radar Onyx</p>
                     <a href="${article.link}" target="_blank" style="display: block; text-align: center; background-color: var(--accent); color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; transition: filter 0.2s;">Abrir Matéria</a>
                 </div>
             `;
