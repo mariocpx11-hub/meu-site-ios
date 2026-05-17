@@ -1,0 +1,83 @@
+// Banco de Dados Oficial Onyx - Expandido & Categorizado Profissionalmente
+const symbolDatabase = [
+    // === CATEGORIA: EXCLUSIVOS IOS (SÓ APARECE/RENDERIZA 100% NO IPHONE) ===
+    { char: '', name: 'Logo Apple', tags: 'apple maca ios exclusivo iphone', os: 'ios', category: 'exclusivos' },
+    { char: '⚯', name: 'Óculos Duplo', tags: 'oculos redondo ios', os: 'ios', category: 'exclusivos' },
+    { char: '☊', name: 'Headset Antigo', tags: 'fone ouvido musica ios', os: 'ios', category: 'exclusivos' },
+    { char: '⎈', name: 'Leme de Navio', tags: 'leme timao mar ios', os: 'ios', category: 'exclusivos' },
+
+    // === CATEGORIA: EXCLUSIVOS ANDROID ===
+    { char: '🤖', name: 'Robô Android', tags: 'robo bot green android', os: 'android', category: 'exclusivos' },
+    { char: 'ꪾ', name: 'Acento Curvo', tags: 'acento onda android tailandes', os: 'android', category: 'exclusivos' },
+    { char: 'ꫂ', name: 'Curva Gamer', tags: 'detalhe curva android nicks', os: 'android', category: 'exclusivos' },
+
+    // === CATEGORIA: COROAS, MESTRES E ELITE ===
+    { char: '亗', name: 'Coroa do Mestre', tags: 'coroa mestre elite bochecha 3 pontas', os: 'ambos', category: 'coroas' },
+    { char: '👑', name: 'Coroa Real', tags: 'coroa ouro rei king queen', os: 'ambos', category: 'coroas' },
+    { char: '𖤍', name: 'Símbolo Águia Elite', tags: 'aguia mestre crista elite', os: 'ambos', category: 'coroas' },
+    { char: '𓎆', name: 'Arco Superior', tags: 'arco teto em cima', os: 'ambos', category: 'coroas' },
+    { char: '♕', name: 'Rainha Xadrez Branca', tags: 'coroa rainha xadrez branca queen', os: 'ambos', category: 'coroas' },
+    { char: '♚', name: 'Rei Xadrez Preto', tags: 'coroa rei xadrez preto king', os: 'ambos', category: 'coroas' },
+    { char: '♛', name: 'Rainha Xadrez Preta', tags: 'coroa rainha xadrez preta queen', os: 'ambos', category: 'coroas' },
+
+    // === CATEGORIA: ARMAS E COMBATE ===
+    { char: '︻╦̵̵͇̿̿̿̿╤──', name: 'Sniper AWM', tags: 'arma sniper awm fuzil metralhadora garena', os: 'ambos', category: 'armas' },
+    { char: '▄︻┻┳═一', name: 'Rifle de Assalto', tags: 'arma ak47 scar fuzil tiro', os: 'ambos', category: 'armas' },
+    { char: '⚔', name: 'Espadas Cruzadas', tags: 'espadas cruzadas luta combate duelo vga', os: 'ambos', category: 'armas' },
+    { char: '🏹', name: 'Arco e Flecha', tags: 'arco flecha arqueiro sniper', os: 'ambos', category: 'armas' },
+    { char: '𓌜', name: 'Tridente Fino', tags: 'tridente poseidon ponta', os: 'ambos', category: 'armas' },
+    { char: '☄', name: 'Meteoro', tags: 'estrela cadente meteoro fogo bomba', os: 'ambos', category: 'armas' },
+    { char: '⚒', name: 'Martelo e Picareta', tags: 'martelo picareta ferramentas minerar armas', os: 'ambos', category: 'armas' },
+    { char: '⛶', name: 'Mira Quadrada', tags: 'mira alvo precisao crosshair quadrado', os: 'ambos', category: 'armas' },
+    { char: '♘', name: 'Cavaleiro Xadrez Branco', tags: 'cavalo xadrez branco arma combat', os: 'ambos', category: 'armas' },
+    { char: '♞', name: 'Cavaleiro Xadrez Preto', tags: 'cavalo xadrez preto arma combat', os: 'ambos', category: 'armas' },
+
+    // === CATEGORIA: CARINHAS E HIGHLIGHTS ===
+    { char: '×͜×', name: 'Sorriso Apelão', tags: 'sorriso malicioso morto bochecha com x carinha bad boy', os: 'ambos', category: 'carinhas' },
+    { char: 'ツ', name: 'Sorriso Japonês (Tsu)', tags: 'tsu carinha feliz japao sorriso', os: 'ambos', category: 'carinhas' },
+    { char: '☌ᴗ☌', name: 'Olhos Fofos', tags: 'carinha fofa olhos meigo', os: 'ambos', category: 'carinhas' },
+    { char: 'ง•_•)ง', name: 'Soco de Luta', tags: 'luta briga pra cima soco carinha emoticom', os: 'ambos', category: 'carinhas' },
+    { char: '•̀_•́', name: 'Carinha Bravo', tags: 'bravo irritado puto focado', os: 'ambos', category: 'carinhas' },
+    { char: 'ت', name: 'Sorriso Árabe', tags: 'carinha feliz sorriso arabe ta smile', os: 'ambos', category: 'carinhas' },
+    { char: '☠', name: 'Caveira Tóxica', tags: 'caveira veneno perigo morte pirata', os: 'ambos', category: 'carinhas' },
+
+    // === CATEGORIA: LETRAS, SINAIS E DIVISORES ===
+    { char: '〆', name: 'Símbolo de Guilda (Shime)', tags: 'shime risco riscado divisao corte guilda assinatura', os: 'ambos', category: 'letras' },
+    { char: '⚡', name: 'Raio de Highlight', tags: 'raio trovao eletrico flash god', os: 'ambos', category: 'letras' },
+    { char: '꧁༺', name: 'Asa Esquerda', tags: 'asa inicio enfeite decoracao guilda', os: 'ambos', category: 'letras' },
+    { char: '༻꧂', name: 'Asa Direita', tags: 'asa fim enfeite decoracao guilda', os: 'ambos', category: 'letras' },
+    { char: '✟', name: 'Cruz Cristã', tags: 'cruz igreja fe religiao cemiterio', os: 'ambos', category: 'letras' },
+    { char: '☦', name: 'Cruz Ortodoxa', tags: 'cruz dupla russa antiga rare', os: 'ambos', category: 'letras' },
+    { char: '☯', name: 'Yin Yang', tags: 'equilibrio oriental preto branco', os: 'ambos', category: 'letras' },
+    { char: '☣', name: 'Risco Biológico', tags: 'biohazard toxico perigo mutante', os: 'ambos', category: 'letras' },
+    { char: '🌌', name: 'Galáxia', tags: 'espaco nebulosa roxo', os: 'ambos', category: 'letras' },
+    { char: '❄', name: 'Gelo', tags: 'neve frio congelado', os: 'ambos', category: 'letras' },
+    { char: '愛', name: 'Ideograma Kanji Amor', tags: 'amor kanji japao chines letra oriental', os: 'ambos', category: 'letras' },
+    { char: '望', name: 'Ideograma Kanji Desejo', tags: 'desejo esperanca kanji oriental letra', os: 'ambos', category: 'letras' },
+    { char: '么', name: 'Ideograma Antigo', tags: 'antigo detalhe kanji oriental', os: 'ambos', category: 'letras' },
+    { char: '✥', name: 'Cruz Florão', tags: 'cruz quadrada florao detalhe luxo', os: 'ambos', category: 'letras' },
+    { char: '✠', name: 'Cruz de Malta', tags: 'cruz malta ferro militar guilda', os: 'ambos', category: 'letras' },
+    { char: 'ⓥ', name: 'Verificado Mini', tags: 'v verificado circulado pequeno', os: 'ambos', category: 'letras' },
+    { char: 'Ⓥ', name: 'Verificado Gamer', tags: 'v verificado circulado grande mestre', os: 'ambos', category: 'letras' },
+    { char: '™', name: 'Marca Registrada (TM)', tags: 'tm trademark marca guilda original', os: 'ambos', category: 'letras' },
+    { char: '☘', name: 'Trevo da Sorte', tags: 'trevo sorte planta verde 3 folhas', os: 'ambos', category: 'letras' },
+    { char: '⚝', name: 'Estrela Delineada', tags: 'estrela vazada star pontas', os: 'ambos', category: 'letras' },
+    { char: '⳻', name: 'Arco de Corte Esquerdo', tags: 'arco detalhe corte enfeite parêntese', os: 'ambos', category: 'letras' },
+    { char: '⳺', name: 'Arco de Corte Direito', tags: 'arco detalhe corte enfeite parêntese', os: 'ambos', category: 'letras' },
+    { char: '᪶', name: 'Acento Suspenso', tags: 'acento tailandes tibetano wave onda', os: 'ambos', category: 'letras' },
+    { char: 'Ꭾ', name: 'Letra Rara Cherokee Pe', tags: 'letra cherokee pe rara grega p', os: 'ambos', category: 'letras' },
+    { char: 'ᣖ', name: 'Silabico Raro P', tags: 'silabico canadense p raro', os: 'ambos', category: 'letras' },
+    { char: 'ᙚ', name: 'Silabico Raro S', tags: 'silabico canadense s raro superior', os: 'ambos', category: 'letras' },
+    { char: '༬', name: 'Sinal Tibetano Raro', tags: 'tibetano raro espiral caracol', os: 'ambos', category: 'letras' },
+    { char: '々', name: 'Iteraçao Japonesa', tags: 'japones detalhe repetição oriental', os: 'ambos', category: 'letras' },
+    { char: '♙', name: 'Peão Xadrez Branco', tags: 'peao xadrez branco detalhe', os: 'ambos', category: 'letras' },
+    { char: '♖', name: 'Torre Xadrez Branca', tags: 'torre xadrez branca castelo', os: 'ambos', category: 'letras' },
+    { char: '𓙚', name: 'Bispo Xadrez Preto', tags: 'bispo xadrez preto detalhe', os: 'ambos', category: 'letras' },
+    { char: '♟', name: 'Peão Xadrez Preto', tags: 'peao xadrez preto detalhe', os: 'ambos', category: 'letras' },
+    { char: '乡', name: 'Kanji de Clã/Tribo', tags: 'clan clã tribo sheng oriental china japao', os: 'ambos', category: 'letras' },
+    { char: '❅', name: 'Floco de Neve Fino', tags: 'gelo neve frio cristal', os: 'ambos', category: 'letras' },
+    { char: '❆', name: 'Floco de Neve Detalhado', tags: 'gelo neve frio cristal grosso', os: 'ambos', category: 'letras' },
+    { char: '⌁', name: 'Raio Quebrado Horizontal', tags: 'raio deitado pulso eletrico zigue zague', os: 'ambos', category: 'letras' },
+    { char: 'ア', name: 'Katakana A', tags: 'katakana a japao letra linha', os: 'ambos', category: 'letras' },
+    { char: '﹫', name: 'Arroba Gamer Pequeno', tags: 'arroba micro pequeno tag', os: 'ambos', category: 'letras' }
+];
