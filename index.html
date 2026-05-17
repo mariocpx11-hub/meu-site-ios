@@ -18,7 +18,8 @@
         <nav class="tabs-nav">
             <button class="tab-btn active" onclick="switchTab('espaco')">Espaços</button>
             <button class="tab-btn" onclick="switchTab('nicks')">Letras</button>
-            <button class="tab-btn" onclick="switchTab('simbolos')">Símbolos & IA</button>
+            <button class="tab-btn" onclick="switchTab('simbolos')">Símbolos</button>
+            <button class="tab-btn" onclick="switchTab('news')">News FF</button>
         </nav>
 
         <section id="tab-espaco" class="tab-content active">
@@ -48,16 +49,6 @@
         </section>
 
         <section id="tab-simbolos" class="tab-content">
-            <div class="card" style="margin-bottom: 16px;">
-                <h2 class="card-title">🧠 IA Groq: Criador Pro-Gamer</h2>
-                <p class="card-desc">Digite uma palavra base ou estilo (ex: insano, rush, toxic, mafioso) e a IA montará nicks avançados de alto nível.</p>
-                <div style="display: flex; gap: 8px;">
-                    <input type="text" id="aiInput" class="input-text" placeholder="Estilo (ex: rushando)...">
-                    <button class="btn-main" style="width: auto; padding: 0 20px;" onclick="generateAiNicks()">Gerar</button>
-                </div>
-                <div class="results-list" id="aiResults" style="margin-top: 12px;"></div>
-            </div>
-
             <div class="card">
                 <h2 class="card-title">Banco de Símbolos Pro</h2>
                 <p class="card-desc">Filtre por categoria ou pesquise pelo nome base do desenho.</p>
@@ -74,6 +65,18 @@
 
                 <input type="text" id="searchInput" class="input-text" placeholder="🔍 Buscar símbolo pelo desenho ou tag..." oninput="searchSymbols()">
                 <div class="symbols-grid" id="symbolsGrid" style="margin-top: 12px;"></div>
+            </div>
+        </section>
+
+        <section id="tab-news" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">📰 Jornal Free Fire</h2>
+                <p class="card-desc">As últimas atualizações, campeonatos e novidades do FF direto da fonte.</p>
+                <div class="results-list" id="newsFeed">
+                    <div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">
+                        Aguardando integração com os servidores de notícias...
+                    </div>
+                </div>
             </div>
         </section>
 
