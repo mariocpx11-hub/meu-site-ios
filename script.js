@@ -12,10 +12,14 @@ function switchTab(tabName) {
     } else if(tabName === 'nicks') {
         document.querySelector('.tabs-nav .tab-btn:nth-child(2)').classList.add('active');
         document.getElementById('tab-nicks').classList.add('active');
-    } else {
+    } else if(tabName === 'simbolos') {
         document.querySelector('.tabs-nav .tab-btn:nth-child(3)').classList.add('active');
         document.getElementById('tab-simbolos').classList.add('active');
         searchSymbols(); 
+    } else if(tabName === 'news') {
+        document.querySelector('.tabs-nav .tab-btn:nth-child(4)').classList.add('active');
+        document.getElementById('tab-news').classList.add('active');
+        fetchNewsFF(); // Dispara o motor de busca de notícias reais!
     }
 }
 
@@ -30,7 +34,7 @@ function showToast(message) {
 // --- FUNÇÃO DE CÓPIA UNIVERSAL ---
 function copySpace(character) {
     navigator.clipboard.writeText(character).then(() => {
-        showToast('Copiado para a área de transferência!');
+        showToast('Copiado!');
     }).catch(err => {
         const el = document.createElement('textarea');
         el.value = character;
@@ -38,7 +42,7 @@ function copySpace(character) {
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-        showToast('Copiado para a área de transferência!');
+        showToast('Copiado!');
     });
 }
 function copyText(text) { copySpace(text); }
@@ -83,73 +87,6 @@ function generateNicks() {
         item.innerHTML = `<span class="nick-text">${nick}</span><span class="copy-icon">Copiar</span>`;
         listContainer.appendChild(item);
     });
-}
-
-// ====================================================
-// 🧠 IA TURBINADA: PERSONALIDADE PRO-PLAYER BRASILEIRO
-// ====================================================
-async function generateAiNicks() {
-    const themeInput = document.getElementById('aiInput').value.trim();
-    const container = document.getElementById('aiResults');
-    const theme = themeInput ? themeInput : "apelão de campeonato";
-
-    container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Groq AI bolando nicks nível camp... ⚡</div>`;
-
-    // Chave integrada conforme solicitado. Se o GitHub bloquear, ela foi revogada.
-    const apiKey = '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'; 
-    
-    try {
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: "llama-3.1-8b-instant",
-                messages: [
-                    {
-                        role: "system",
-                        // Mágica acontece aqui: o prompt agora tem "alma"
-                        content: "Aja como um jogador brasileiro profissional, veterano de e-Sports. Sua tarefa é criar 5 codinomes (nicks) absurdamente criativos, agressivos e que botam pressão na line inimiga. Use o estilo do usuário como base. INSTRUÇÕES: 1) Nunca crie nomes infantis, robóticos ou palavras simples. 2) Misture o tema com letras maiúsculas espaçadas, abreviações gringas (ex: VZ, LND, FX, XIT) ou símbolos raros do oriente (ex: 望, 么, 〆, 炎, , ×͜×, 亗). 3) Crie a estética exata que um pro-player usaria hoje. Retorne APENAS os 5 nicks separados por vírgula. Zero conversa fiada, sem aspas, sem números na frente."
-                    },
-                    {
-                        role: "user",
-                        content: `Estilo base para o nick: ${theme}`
-                    }
-                ],
-                temperature: 0.9, // Aumentado para dar mais criatividade e ousadia nas respostas
-                max_tokens: 120
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`Código ${response.status}`);
-        }
-
-        const data = await response.json();
-        
-        if (data.choices && data.choices.length > 0) {
-            const iaText = data.choices[0].message.content;
-            const nicks = iaText.split(',').map(n => n.trim()).filter(n => n.length > 0);
-            
-            container.innerHTML = "";
-            nicks.forEach(nick => {
-                const item = document.createElement('div');
-                item.className = 'result-item';
-                item.onclick = () => copyText(nick);
-                item.innerHTML = `<span class="nick-text">${nick}</span><span class="copy-icon">Copiar</span>`;
-                container.appendChild(item);
-            });
-        }
-
-    } catch (error) {
-        console.error("Erro Groq:", error);
-        container.innerHTML = `<div style="text-align: center; color: #ff453a; padding: 20px; font-size: 13px;">
-            Erro Real: ${error.message} <br> 
-            <span style="color: var(--texto-s); font-size: 11px;">Sua chave pode ter sido revogada pelo GitHub.</span>
-        </div>`;
-    }
 }
 
 // --- FILTRAR BANCO POR BOTÕES DE CATEGORIAS (PILLS) ---
@@ -211,4 +148,70 @@ function searchSymbols() {
         `;
         grid.appendChild(btn);
     });
+}
+
+// ====================================================
+// 📰 MOTOR DE JORNAL: GOOGLE NEWS API (FREE FIRE BRASIL)
+// ====================================================
+async function fetchNewsFF() {
+    const container = document.getElementById('newsFeed');
+    container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 30px; font-size: 13px;">Buscando as novidades do servidor... 📡</div>`;
+
+    try {
+        // Puxa as notícias reais do Google News focadas em "Free Fire" e converte em JSON automático
+        const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=Free+Fire+when:7d&hl=pt-BR&gl=BR&ceid=BR:pt-419');
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.status !== 'ok') {
+            throw new Error("Falha ao puxar as notícias do servidor.");
+        }
+
+        container.innerHTML = ""; // Limpa a mensagem de carregamento
+
+        // Pega apenas as 8 notícias mais recentes para não pesar o site
+        const articles = data.items.slice(0, 8);
+
+        if (articles.length === 0) {
+            container.innerHTML = `<div style="text-align: center; color: var(--texto-s); padding: 20px; font-size: 13px;">Sem novidades nos últimos dias.</div>`;
+            return;
+        }
+
+        articles.forEach(article => {
+            // Se o Google não entregar uma imagem na notícia, usamos um wallpaper genérico do FF como fallback
+            let imageUrl = article.thumbnail || article.enclosure.link || 'https://i.imgur.com/3Z5V8bZ.jpeg';
+
+            // Formatação da data para o padrão BR
+            let pubDate = new Date(article.pubDate).toLocaleDateString('pt-BR');
+
+            // Criando o "Card" da notícia
+            const newsCard = document.createElement('div');
+            // CSS embutido para criar o layout visual da revista/jornal sem você precisar mexer no style.css
+            newsCard.style.cssText = `
+                background-color: var(--bg-input);
+                border-radius: var(--radius-button);
+                overflow: hidden;
+                margin-bottom: 16px;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                display: flex;
+                flex-direction: column;
+            `;
+
+            newsCard.innerHTML = `
+                <div style="height: 160px; background-image: url('${imageUrl}'); background-size: cover; background-position: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);"></div>
+                <div style="padding: 16px;">
+                    <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--texto-p); line-height: 1.4;">${article.title}</h3>
+                    <p style="font-size: 11px; color: var(--texto-s); margin-bottom: 14px;">Atualizado em: ${pubDate} • Fonte Oficial</p>
+                    <a href="${article.link}" target="_blank" style="display: block; text-align: center; background-color: var(--accent); color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 600; transition: filter 0.2s;">Abrir Matéria</a>
+                </div>
+            `;
+            container.appendChild(newsCard);
+        });
+
+    } catch (error) {
+        console.error("Erro News API:", error);
+        container.innerHTML = `<div style="text-align: center; color: #ff453a; padding: 20px; font-size: 13px;">Erro de radar: O servidor de notícias demorou a responder. Tente recarregar.</div>`;
+    }
 }
